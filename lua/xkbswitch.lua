@@ -70,6 +70,11 @@ local function initXkbSwitch()
 			M.__impl.user_us_layout_variation = value
 		end
 	end
+	if M.__impl.user_us_layout_variation == nil then
+		error(
+			"(xkbswitch.lua) Error occured: could not find the English layout. Check your layout list. (xkb-switch -l / issw -l / g3kb-switch -l)"
+		)
+	end
 end
 
 function M.__impl.get_current_layout()
@@ -80,16 +85,9 @@ function M.__impl.set_layout(layout_name)
 	vim.fn.libcall(M.__impl.xkb_switch_lib, "Xkb_Switch_setXkbLayout", layout_name)
 end
 
-
-
 M.__impl.saved_layout = M.__impl.get_current_layout()
 M.__impl.user_us_layout_variation = nil
 
-if M.__impl.user_us_layout_variation == nil then
-	error(
-		"(xkbswitch.lua) Error occured: could not find the English layout. Check your layout list. (xkb-switch -l / issw -l / g3kb-switch -l)"
-	)
-end
 
 function M.setup(opts)
 	-- Parse provided options
@@ -162,7 +160,9 @@ function M.setup(opts)
 		pattern = "*",
 		callback = function()
 			vim.schedule(function()
-				M.__impl.set_layout(M.__impl.saved_layout)
+				if M.__impl.saved_layout then
+					M.__impl.set_layout(M.__impl.saved_layout)
+				end
 			end)
 		end,
 	})
