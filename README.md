@@ -1,3 +1,36 @@
+# Why fork?
+
+Original [xkbswitch.nvim](https://github.com/ivanesmantovich/xkbswitch.nvim) relies on libxkbswitch library to work with layouts which is don't work on wayland(i check niri compositor). So there i add ability to define custom functions to get current layout and switch between layouts. Basic logic remains the same.
+
+## Usage
+
+Without any config opts it must work as original xkbswitch(**I don't tested this**). If you need custom rules for layout management you can set following options in setup opts(in example show config for [niri](https://github.com/niri-wm/niri) compositor):
+
+```lua
+require("xkbswitch").setup({
+-- other stuff
+	-- default english layout id
+	user_us_layout_variation = "0",
+
+	-- get current layout id
+	get_current_layout = function ()
+		local id = vim.fn.system("niri msg keyboard-layouts | rg '\\*' | awk '{print $2}'")
+		id = string.gsub(id, "\n", "", 1)
+		return id
+	end,
+
+	-- set layout by id
+	-- @param layout any it is value returned by get_current_layout function
+	set_layout = function (layout)
+		if not layout then layout = "0" end
+		vim.system({"niri", "msg", "action", "switch-layout", layout})
+	end,
+-- other stuff
+})
+```
+
+## Original README.md
+
 <div align="center">
   <p>
     <img src="assets/logo.png" align="center" alt="Logo" />
@@ -34,7 +67,7 @@ sudo make install
 <td>
 
 ```lua
-use 'ivanesmantovich/xkbswitch.nvim'
+use 'Timur-ux/xkbswitch.nvim'
 ```
 
 </td>
@@ -42,7 +75,7 @@ use 'ivanesmantovich/xkbswitch.nvim'
 
 ```lua
 return { 
-    {'ivanesmantovich/xkbswitch.nvim'} 
+    {'Timur-ux/xkbswitch.nvim'} 
 }
 ```
 
@@ -50,7 +83,7 @@ return {
 <td>
 
 ```lua
-call dein#add('ivanesmantovich/xkbswitch.nvim')
+call dein#add('Timur-ux/xkbswitch.nvim')
 ```
 
 </td>
@@ -85,7 +118,7 @@ sudo ldconfig
 <td>
 
 ```lua
-use 'ivanesmantovich/xkbswitch.nvim'
+use 'Timur-ux/xkbswitch.nvim'
 ```
 
 </td>
@@ -93,7 +126,7 @@ use 'ivanesmantovich/xkbswitch.nvim'
 
 ```lua
 return { 
-    {'ivanesmantovich/xkbswitch.nvim'} 
+    {'Timur-ux/xkbswitch.nvim'} 
 }
 ```
 
@@ -101,7 +134,7 @@ return {
 <td>
 
 ```lua
-call dein#add('ivanesmantovich/xkbswitch.nvim')
+call dein#add('Timur-ux/xkbswitch.nvim')
 ```
 
 </td>
@@ -138,7 +171,7 @@ make install  # no sudo required!
 <td>
 
 ```lua
-use 'ivanesmantovich/xkbswitch.nvim'
+use 'Timur-ux/xkbswitch.nvim'
 ```
 
 </td>
@@ -146,7 +179,7 @@ use 'ivanesmantovich/xkbswitch.nvim'
 
 ```lua
 return { 
-    {'ivanesmantovich/xkbswitch.nvim'} 
+    {'Timur-ux/xkbswitch.nvim'} 
 }
 ```
 
@@ -154,7 +187,7 @@ return {
 <td>
 
 ```lua
-call dein#add('ivanesmantovich/xkbswitch.nvim')
+call dein#add('Timur-ux/xkbswitch.nvim')
 ```
 
 </td>
