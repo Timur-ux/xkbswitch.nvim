@@ -97,9 +97,7 @@ function M.setup(opts)
 	end
 	if not opts.custom_layout_rules then
 		initXkbSwitch()
-		vim.notify("Use plain xkb-switch variabt", vim.log.levels.WARN)
 	else
-		vim.notify("Use custom variabt", vim.log.levels.WARN)
 		local rules = opts.custom_layout_rules
 		M.__impl.get_current_layout = rules.get_current_layout
 			or function()
