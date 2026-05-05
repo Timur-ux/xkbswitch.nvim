@@ -1,3 +1,7 @@
+# Why fork?
+
+Original [xkbswitch.nvim](https://github.com/ivanesmantovich/xkbswitch.nvim) relies on libxkbswitch library to work with layouts which is don't work on wayland(i check niri compositor). So there i add ability to define custom functions to get current layout and switch between layouts. Basic logic remains the same.
+
 <div align="center">
   <p>
     <img src="assets/logo.png" align="center" alt="Logo" />
